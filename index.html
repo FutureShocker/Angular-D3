@@ -1,0 +1,140 @@
+   <!doctype html>
+    <html>
+    <head>
+       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+         <script src='./js/jquery-ui-1.9.1.custom.js'></script>
+         <script src="http://d3js.org/d3.v2.min.js"></script>
+             <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+                
+               <script src="./script.js"></script> 
+               <script src="./localStorageModule.js"></script>
+              
+            
+<! -- DOM Ready + DatePickr -->             
+
+
+<script>
+    
+    $(function() {
+     $("#datepicker").datepicker({
+   showOn: 'both',
+   buttonImage: 'http://www.ncdjjdp.org/resources/graphics/calendar_icon_mini.png',
+   buttonImageOnly: true,
+   changeMonth: true,
+   changeYear: true,
+   showAnim: 'slideDown',
+   duration: 'fast',
+   onSelect: function(dateText, inst) {
+     var dateAsString = dateText;
+     $('#datepicker').html(dateAsString);
+   }
+});
+});
+</script>
+    
+<! -- Inline styles -->    
+    <style>
+    
+   td {
+                width: 206px;
+                text-align: center;
+               
+            }
+            path.line {
+                fill: none;
+                stroke: green;
+                stroke-width: 1.5px;
+            }
+            path.line2 {
+                fill: none;
+                stroke: red;
+                stroke-width: 1.5px;
+            }
+
+
+            path.area {
+                fill: #e7e7e7;
+            }
+
+            .axis {
+                shape-rendering: crispEdges;
+            }
+
+            .x.axis line {
+                stroke: #fff;
+            }
+
+            .x.axis .minor {
+                stroke-opacity: .5;
+            }
+
+            .x.axis path {
+                display: none;
+            }
+
+            .y.axis line, .y.axis path {
+                fill: none;
+                stroke: #000;
+            }
+            .x.axis line2 {
+                stroke: red;
+            }
+
+            .y.axis line2, {
+                fill: none;
+                stroke: blue;
+            }
+            .expense {
+            fill: #00FF00;
+            }
+            .income {
+            fill: #FF0000;
+            }
+    </style>
+    </head>
+    <body  ng-app="myApp">
+    <div class='container' style='text-align:center;'>
+        <h2>Accounting Spreadsheet - A Todo-Like Application ft. D3 Graphing</h2>
+    <div ng-controller="ItemCtrl">
+    <span>Balance: {{balance()}}</span>
+    <br /><br />
+    <form ng-submit="addItem()">
+    <input type="text" ng-model="addNote" size="30"
+    placeholder="Note">
+    <input type="text" ng-model="addExpense" size="30"
+    placeholder="">
+    <input type="text" ng-model="addIncome" size="30"
+    placeholder="">
+    <input type="text" id='datepicker' size="30"
+    placeholder="">
+        <input class="btn-primary" type="submit" value="Add">
+    </form>
+ <table style='margin-left:auto;margin-right:auto;'>
+     <thead>
+    <th><a href='#' ng-click="predicate = 'note'; reverse=!reverse;">Note</a></th><th><a href='#' ng-click="predicate = 'expense'; reverse=!reverse;">Expense</a></th><th><a href='#' ng-click="predicate = 'income'; reverse=!reverse;">Income</th></a><th><a href='#' ng-click="predicate = 'date'; reverse=!reverse;">Date</a></th></thead>
+    <tbody>
+        <tr ng-repeat="item in items | orderBy:predicate:reverse ">
+    <td>{{item.note}}</td><td>{{item.expense | currency}}</td><td>{{item.income | currency}}</td><td>{{item.date}}</td>
+    <td style='text-align:left'><button ng-click='removeItem($index)'>X</button></td>
+    </tr>
+    
+    <! -- Just an empty row to prevent th's folding --> 
+    <tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+    </tbody>
+    </table>
+   <datavisualization val='items' grouped="grouped"></datavisualization>
+   
+    </div>
+    
+   
+    
+    <! -- Things that can load after render --> 
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css " rel="stylesheet">
+     <link href="./css/ui-lightness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+
+
+  
+
+    </body>
+    </html>
